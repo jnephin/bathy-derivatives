@@ -3,7 +3,7 @@
 #  Creates several raster of bathymetric derivatives:
 #    1) Benthic Position index (BPI)
 #    2) Slope and Aspect
-#    3) Classifed bottom features using 1) and 2)
+#    3) Classified bottom features using 1) and 2)
 #    4) Terrain ruggedness, using the vector ruggedness measure (VRM)
 # Requirements: Spatial Analyst, utils.py, config.py and BPI_functions.py
 # Authors: Jessica Nephin
