@@ -2,23 +2,28 @@
 # Description:
 #    Functions to create a bathymetric position index (BPI) raster, which
 #    measures the average value in a 'donut' of locations, excluding
-#    cells too close to the origin point, and outside a set distance.
+#    cells too close to the origin point, and outside a set distance, and
+#    a terrain ruggedness raster, using the vector ruggedness measure (VRM).
 # Requirements: Spatial Analyst
-# Authors: Jessica Nephin
+# Authors: Jessica Nephin (previous contributers listed in Acknowledgements)
 # Affiliation:  Fisheries and Oceans Canada (DFO)
 # Group:        Marine Spatial Ecology and Analysis
 # Location:     Institute of Ocean Sciences
 # Contact:      e-mail: jessica.nephin@dfo-mpo.gc.ca | tel: 250.363.6564
 # Acknowledgements:
-#    Functions from the BTM package writen by
 #    Dawn J. Wright, Emily R. Lundblad, Emily M. Larkin, Ronald W. Rinehart,
-#    Shaun Walbridge, Emily C. Huntley
+#    Shaun Walbridge, Emily C. Huntley, Mark Sappington
+# References:
+#    Sappington et al., 2007. Quantifying Landscape Ruggedness for
+#        Animal Habitat Analysis: A Case Study Using Bighorn Sheep in the
+#        Mojave Desert. Journal of Wildlife Management. 71(5): 1419 -1426.
 ###############################################################################
 
 # Import system modules
 from __future__ import absolute_import
 import os
 import sys
+import math
 import utils
 import config
 import arcpy
@@ -99,6 +104,9 @@ class NoValidClasses(Exception):
 def classifyBPI(classification_file, bpi_broad_std, bpi_fine_std,
                 slope, bathy, out_raster=None):
 
+    # Allow overwriteOutput
+    arcpy.env.overwriteOutput = True
+
     # Read in the classification file
     btm_doc = utils.BtmDocument(classification_file)
     classes = btm_doc.classification()
@@ -169,3 +177,40 @@ def classifyBPI(classification_file, bpi_broad_std, bpi_fine_std,
             cursor.updateRow(row)
     del(cursor)
     del(row)
+
+# Terrain ruggedness function
+def terrug(in_raster=None, neighborhood_size=None,
+           out_raster=None, slope_raster=None, aspect_raster=None):
+
+    # moving window size
+    hood_size = int(neighborhood_size)
+
+    # settings
+    pyramid_orig = arcpy.env.pyramid
+    arcpy.env.rasterStatistics = "STATISTICS"
+    arcpy.env.pyramid = "NONE"
+    arcpy.env.overwriteOutput = True
+    arcpy.env.compression = 'LZW'
+
+    # Convert Slope and Aspect rasters to radians
+    slope_rad = slope_raster * (math.pi / 180)
+    aspect_rad = aspect_raster * (math.pi / 180)
+
+    # Calculate x, y, and z rasters
+    xy_raster_calc = Sin(slope_rad)
+    z_raster_calc = Cos(slope_rad)
+    x_raster_calc = Con(aspect_raster == -1, 0, Sin(aspect_rad)) * xy_raster_calc
+    y_raster_calc = Con(aspect_raster == -1, 0, Cos(aspect_rad)) * xy_raster_calc
+
+    # Calculate sums of x, y, and z rasters for selected neighborhood size
+    hood = NbrRectangle(hood_size, hood_size, "CELL")
+    x_sum_calc = FocalStatistics(x_raster_calc, hood, "SUM", "NODATA")
+    y_sum_calc = FocalStatistics(y_raster_calc, hood, "SUM", "NODATA")
+    z_sum_calc = FocalStatistics(z_raster_calc, hood, "SUM", "NODATA")
+
+    # Calculate the resultant vector
+    result_vect = (x_sum_calc**2 + y_sum_calc**2 + z_sum_calc**2)**0.5
+
+    # Calculate the Ruggedness raster
+    ruggedness = 1 - (result_vect / hood_size**2)
+    arcpy.CopyRaster_management(ruggedness, out_raster)
