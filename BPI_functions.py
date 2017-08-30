@@ -4,19 +4,27 @@
 #    measures the average value in a 'donut' of locations, excluding
 #    cells too close to the origin point, and outside a set distance, and
 #    a terrain ruggedness raster, using the vector ruggedness measure (VRM).
+#
 # Requirements: Spatial Analyst
+#
 # Authors: Jessica Nephin (previous contributers listed in Acknowledgements)
 # Affiliation:  Fisheries and Oceans Canada (DFO)
 # Group:        Marine Spatial Ecology and Analysis
 # Location:     Institute of Ocean Sciences
 # Contact:      e-mail: jessica.nephin@dfo-mpo.gc.ca | tel: 250.363.6564
+#
 # Acknowledgements:
-#    Dawn J. Wright, Emily R. Lundblad, Emily M. Larkin, Ronald W. Rinehart,
-#    Shaun Walbridge, Emily C. Huntley, Mark Sappington
+#    Based off scripts in the Benthic Terrain Modeler (BTM) 3.0 for ArcGIS
+#    authored by Dawn J. Wright, Emily R. Lundblad, Emily M. Larkin, Ronald
+#    W. Rinehart, Shaun Walbridge, Emily C. Huntley
+#
 # References:
 #    Sappington et al., 2007. Quantifying Landscape Ruggedness for
 #        Animal Habitat Analysis: A Case Study Using Bighorn Sheep in the
 #        Mojave Desert. Journal of Wildlife Management. 71(5): 1419 -1426.
+#    Weiss, A. (2001). Topographic position and landforms analysis. Poster
+#        Presentation, ESRI User Conference, San Diego, CA, 64, 227–245.
+#        https://doi.org/http://www.jennessent.com/downloads/TPI-poster-TNC_18x22.pdf
 ###############################################################################
 
 # Import system modules
