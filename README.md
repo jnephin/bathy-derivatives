@@ -25,10 +25,10 @@ Instructions
 ```
 /<parent_folder>    
         /Scripts    
-        |       ---`utils.py`    
-        |       ---`config.py`    
-        |       ---`BPI_functions.py`    
-        |       ---`BPI.py`    
+        |       ---utils.py    
+        |       ---config.py   
+        |       ---BPI_functions.py   
+        |       ---BPI.py    
         /Bathy    
         |       ---<name_of_bathymetry_rater>.tif
         /Classify
