@@ -1,10 +1,10 @@
 Description
 -----------
 Creates several rasters of bathymetric derivatives:
-    1) Benthic Position index (BPI) fine and broad scale
-    2) Hillshade, Slope and Aspect
-    3) Classified bottom features using 1) and 2) and classification table
-    4) Terrain ruggedness, using the vector ruggedness measure (VRM)
+    1. Benthic Position index (BPI) fine and broad scale
+    2. Hillshade, Slope and Aspect
+    3. Classified bottom features using 1) and 2) and classification table
+    4. Terrain ruggedness, using the vector ruggedness measure (VRM)
 
 Contact
 -------
