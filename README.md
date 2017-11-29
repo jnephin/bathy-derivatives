@@ -46,4 +46,4 @@ References
 ----------
 Sappington et al., 2007. Quantifying Landscape Ruggedness for Animal Habitat Analysis: A Case Study Using Bighorn Sheep in the Mojave Desert. Journal of Wildlife Management. 71(5): 1419 -1426.
     
-Weiss, A. (2001). Topographic position and landforms analysis. Poster Presentation, ESRI User Conference, San Diego, CA, 64, 227–245. https://doi.org/http://www.jennessent.com/downloads/TPI-poster-TNC_18x22.pdf
+Weiss, A. (2001). Topographic position and landforms analysis. Poster Presentation, ESRI User Conference, San Diego, CA, 64, 227-245. https://doi.org/http://www.jennessent.com/downloads/TPI-poster-TNC_18x22.pdf

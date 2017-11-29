@@ -31,6 +31,8 @@
 # 3) Set 'basename' and 'res' variables in Global options line 32
 # 4) Run in python window from /Scripts working directory
 #
+# Notes: Bathymetry raster must be negative values
+#
 # Acknowledgements:
 #    Based off scripts in the Benthic Terrain Modeler (BTM) 3.0 for ArcGIS
 #    authored by Dawn J. Wright, Emily R. Lundblad, Emily M. Larkin, Ronald
@@ -97,43 +99,43 @@ classified_raster = os.getcwd()+'/Classify/'+ basename+'_'+'Classified_bpi_'+res
 
 #------------------------------------------------------------------------------#
 
-# ## Calculate broad BPI ##
-# bpi_type = 'broad'
-# inner_radius = 200
-# outer_radius = 500
-# # run
-# bpi(bathy=bathy,
-#     inner_radius=inner_radius,
-#     outer_radius=outer_radius,
-#     out_raster=broad_bpi,
-#     bpi_type=bpi_type)
-# stdbpi(bpi_raster=broad_bpi,
-#        out_raster=broad_std)
-#
-# ## Calculate fine BPI ##
-# bpi_type = 'fine'
-# inner_radius = 5
-# outer_radius = 200
-# # run
-# bpi(bathy=bathy,
-#     inner_radius=inner_radius,
-#     outer_radius=outer_radius,
-#     out_raster=fine_bpi,
-#     bpi_type=bpi_type)
-# stdbpi(bpi_raster=fine_bpi,
-#        out_raster=fine_std)
-#
-# ## Calculate Hillshade ##
-# outHillshade = Hillshade(bathy, 180, 45, "NO_SHADOWS", 1)
-# arcpy.CopyRaster_management(outHillshade, hillshade_raster)
-#
-# ## Calculate Slope ##
-# outSlope = Slope(bathy, "DEGREE", 1)
-# arcpy.CopyRaster_management(outSlope, slope_raster)
-#
-# ## Calculate Aspect ##
-# outAspect = Aspect(bathy)
-# arcpy.CopyRaster_management(outAspect, aspect_raster)
+## Calculate broad BPI ##
+bpi_type = 'broad'
+inner_radius = 200
+outer_radius = 500
+# run
+bpi(bathy=bathy,
+    inner_radius=inner_radius,
+    outer_radius=outer_radius,
+    out_raster=broad_bpi,
+    bpi_type=bpi_type)
+stdbpi(bpi_raster=broad_bpi,
+       out_raster=broad_std)
+
+## Calculate fine BPI ##
+bpi_type = 'fine'
+inner_radius = 5
+outer_radius = 200
+# run
+bpi(bathy=bathy,
+    inner_radius=inner_radius,
+    outer_radius=outer_radius,
+    out_raster=fine_bpi,
+    bpi_type=bpi_type)
+stdbpi(bpi_raster=fine_bpi,
+       out_raster=fine_std)
+
+## Calculate Hillshade ##
+outHillshade = Hillshade(bathy, 180, 45, "NO_SHADOWS", 1)
+arcpy.CopyRaster_management(outHillshade, hillshade_raster)
+
+## Calculate Slope ##
+outSlope = Slope(bathy, "DEGREE", 1)
+arcpy.CopyRaster_management(outSlope, slope_raster)
+
+## Calculate Aspect ##
+outAspect = Aspect(bathy)
+arcpy.CopyRaster_management(outAspect, aspect_raster)
 
 ## Calculate Terrain Ruggedness ##
 terrug(in_raster=bathy,
@@ -142,10 +144,10 @@ terrug(in_raster=bathy,
        slope_raster=Raster(slope_raster),
        aspect_raster=Raster(aspect_raster))
 
-# ## Zone Classification Builder ##
-# classifyBPI(classification_file=classification_dict,
-#               bpi_broad_std=broad_std,
-#               bpi_fine_std=fine_std,
-#               slope=slope_raster,
-#               bathy=bathy,
-#               out_raster=classified_raster)
+## Zone Classification Builder ##
+classifyBPI(classification_file=classification_dict,
+              bpi_broad_std=broad_std,
+              bpi_fine_std=fine_std,
+              slope=slope_raster,
+              bathy=bathy,
+              out_raster=classified_raster)
